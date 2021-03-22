@@ -410,7 +410,6 @@ int* parse(char* buf, int* arr_size) {
     char* str = buf;
     int i = 0, offset = 0;
     while(sscanf(str, "%d%n", &arr[i], &offset) == 1) {
-        // printf("%d: %d (offset: %d)\n", i, arr[i], offset);
         str += offset;
         ++i;
         if(i % 10 == 9) {
@@ -438,7 +437,6 @@ int main(int argc, char* argv[]) {
     int reti = regcomp(&regex, ".txt", 0);
     for (int i = 1; i < argc; ++i)
     {
-        // printf("%d: %s\n", i, argv[i]);
         reti = regexec(&regex, argv[i], 0, NULL, 0);
         if (reti == 0) {
             input_count++;
@@ -446,10 +444,6 @@ int main(int argc, char* argv[]) {
         }
     }
     regfree(&regex);
-    // for (int i = 0; i < argc; ++i)
-    // {
-    //     printf("i: %d; arg: %s; value: %d\n", i, argv[i], input_array[i]);
-    // }
 
     int* fd = malloc(argc * sizeof(int));
     arr_size_add = malloc(input_count * sizeof(int));
