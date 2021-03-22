@@ -426,7 +426,7 @@ int* parse(char* buf, int* arr_size) {
 
 int main(int argc, char* argv[]) {
     if (argc == 1) {
-        printf("Usage: task_1 \"test_1.txt\" \"test_2.txt\" \"test_3.txt\" \n");
+        printf("Usage: task_01 \"test1.txt\" \"test2.txt\" \"test3.txt\" \n");
         printf("P.S. Compile with '-lrt' flag\n");
         return 0;
     }
