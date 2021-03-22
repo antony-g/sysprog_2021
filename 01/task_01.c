@@ -477,6 +477,7 @@ int main(int argc, char* argv[]) {
     free(arr_size_add);
     free(array);
     free(fd);
+    free(input_array);
 
     printf("Finished!\n");
     return 0;
