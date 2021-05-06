@@ -58,7 +58,7 @@ typedef struct file {
 typedef struct filedesc {
 	file_t *file;
 	int id, offset;
-	const int FLAG;
+	int FLAG;
 } filedesc_t;
 
 /** Инициализация массива данных. */
@@ -172,9 +172,9 @@ static file_t* file_create(const char* path) {
 	else {
 		file->next = file_list;
 		file_list->prev = file;
-		file->size = 0;
-		file_list = file;
 	}
+	file->size = 0;
+	file_list = file;
 	return file;
 }
 
@@ -258,13 +258,13 @@ static ssize_t read_recursively(block_t* block, int offset, char* buf, size_t si
 /** Запись данных. */
 static ssize_t write_recursively(block_t* block, file_t* file, int offset, const char* buf, size_t size) {
 	if (size <= 0) {
-		return NULL;
+		return 0;
 	}
 	else if (offset == MAX_FILE_SIZE) {
 		ufs_error_code = UFS_ERR_NO_MEM; 
 		return -1; 
 	}
-	int mempry_left = BLOCK_SIZE - offset % BLOCK_SIZE;
+	int memory_left = BLOCK_SIZE - offset % BLOCK_SIZE;
 	if (memory_left < size) {
 		memcpy(block->memory + offset % BLOCK_SIZE, buf, memory_left);
 		file->size += memory_left;
@@ -411,19 +411,15 @@ int ufs_resize(int fd, size_t size) {
 	if (size < 0) {
 		return -1;
 	}
-	else {
-		filedesc_t* file_desc = fd_find(fd);
-	}
+	filedesc_t* file_desc = fd_find(fd);
 	if (!file_desc) {
 		ufs_error_code = UFS_ERR_NO_FILE;
 		return -1;
 	}
-	else {
-		file_t* file = file_desc->file;
-		int new_block = size/BLOCK_SIZE - file->size/BLOCK_SIZE;
-		int offset = size % BLOCK_SIZE;
-		block_t* block = file->last_block
-	};
+	file_t* file = file_desc->file;
+	int new_block = size/BLOCK_SIZE - file->size/BLOCK_SIZE;
+	int offset = size % BLOCK_SIZE;
+	block_t* block = file->last_block;
 	if (new_block > 0) {
 		for (int i = 0; i < new_block; i++) {
 			block_t* next_block = block_create();
