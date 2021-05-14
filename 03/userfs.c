@@ -374,10 +374,11 @@ int ufs_close(int fd)
 	for (int i = 0; i < file_descriptor_count; i++) {
 		if (file_descriptors[i] && file_descriptors[i]->id == fd) {
 			file_t* file = file_descriptors[i]->file;
-			if(file->refs-- == 0 && !file_exists(file)) {
+			if(--file->refs == 0 && !file_exists(file)) {
 				file_free(file); 
 			}
 			free(file_descriptors[i]);
+			file_descriptors[i] = NULL;
 			return 0;
 		}
 	}
