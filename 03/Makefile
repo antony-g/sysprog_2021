@@ -1,6 +1,9 @@
 all: test.o userfs.o
 	gcc test.o userfs.o -o task_3
 
+asan: test.o userfs.o
+	gcc test.o userfs.o -o task_3 -fsanitize=address
+
 test.o: test.c
 	gcc -c test.c -o test.o
 
