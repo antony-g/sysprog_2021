@@ -47,7 +47,7 @@
 а значит и принимать на вход некуда. Вы можете писать тесты на С,
 в отдельном файле, где будет __main__, и куда будет делаться __include__
 вашего решения. Например, создается файл __main.c__, который делает
-`include "thread_pool.h"` и в функции main делает какие-то тесты.
+`include "thread_pool.h"` и в функции __main__ делает какие-то тесты.
 
 Это все собирается так:
 ```
@@ -65,9 +65,7 @@
 - +5 баллов: реализовать таймаут для `thread_task_join()`:
 
 ```C
-  int
-  thread_task_join(struct thread_task *task, double timeout,
-                   void **result);
+  int thread_task_join(struct thread_task *task, double timeout, void **result);
   // Таймаут здесь в секундах. Эта функция должна начать возвращать новый код ошибки: TPOOL_ERR_TIMEOUT.
 ```
 
