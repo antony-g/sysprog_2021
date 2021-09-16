@@ -19,55 +19,55 @@ enum {
 	MAX_FILE_SIZE = 1024 * 1024 * 1024
 };
 
-/** Код ошибки для отладки. */
+/** РљРѕРґ РѕС€РёР±РєРё РґР»СЏ РѕС‚Р»Р°РґРєРё. */
 static enum ufs_error_code ufs_error_code = UFS_ERR_NO_ERR;
 enum ufs_error_code ufs_errno()
 {
 	return ufs_error_code;
 }
 
-/** Класс блока данных. */
+/** РљР»Р°СЃСЃ Р±Р»РѕРєР° РґР°РЅРЅС‹С…. */
 typedef struct block {
-	/** Память. */
+	/** РџР°РјСЏС‚СЊ. */
 	char* memory;
-	/** Занято. */
+	/** Р—Р°РЅСЏС‚Рѕ. */
 	int occupied;
-	/** Следующий блок данных. */
+	/** РЎР»РµРґСѓСЋС‰РёР№ Р±Р»РѕРє РґР°РЅРЅС‹С…. */
 	struct block* next;
-	/** Предыдущий блок данных. */
+	/** РџСЂРµРґС‹РґСѓС‰РёР№ Р±Р»РѕРє РґР°РЅРЅС‹С…. */
 	struct block* prev;
 } block_t;
 
-/** Класс файла. */
+/** РљР»Р°СЃСЃ С„Р°Р№Р»Р°. */
 typedef struct file {
-	/** Имя файла. */
+	/** РРјСЏ С„Р°Р№Р»Р°. */
 	const char* name;
-	/** Размер блока. */
+	/** Р Р°Р·РјРµСЂ Р±Р»РѕРєР°. */
 	int size;
-	/** Открытые файловые дескрипторы. */
+	/** РћС‚РєСЂС‹С‚С‹Рµ С„Р°Р№Р»РѕРІС‹Рµ РґРµСЃРєСЂРёРїС‚РѕСЂС‹. */
 	int refs;
-	/** Двусвязный список блока данных. */
+	/** Р”РІСѓСЃРІСЏР·РЅС‹Р№ СЃРїРёСЃРѕРє Р±Р»РѕРєР° РґР°РЅРЅС‹С…. */
 	block_t* block_list;
 	struct file* next;
 	struct file* prev;
-	/** Последний блок (для доступа к концу файла). */
+	/** РџРѕСЃР»РµРґРЅРёР№ Р±Р»РѕРє (РґР»СЏ РґРѕСЃС‚СѓРїР° Рє РєРѕРЅС†Сѓ С„Р°Р№Р»Р°). */
 	block_t* last_block;
 } file_t;
 
-/** Класс дескриптора файла. */
+/** РљР»Р°СЃСЃ РґРµСЃРєСЂРёРїС‚РѕСЂР° С„Р°Р№Р»Р°. */
 typedef struct filedesc {
 	file_t *file;
 	int id, offset;
 	int FLAG;
 } filedesc_t;
 
-/** Инициализация массива данных. */
+/** РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РјР°СЃСЃРёРІР° РґР°РЅРЅС‹С…. */
 static file_t* file_list;
 static filedesc_t** file_descriptors;
 static int file_descriptor_count;
 static int file_descriptor_capacity;
 
-/** Создание блока данных. */
+/** РЎРѕР·РґР°РЅРёРµ Р±Р»РѕРєР° РґР°РЅРЅС‹С…. */
 static block_t* block_create() {
 	block_t* block = malloc(sizeof(block_t));
 	if (!block) {
@@ -87,7 +87,7 @@ static block_t* block_create() {
 	return block;
 }
 
-/** Освобождение памяти. */
+/** РћСЃРІРѕР±РѕР¶РґРµРЅРёРµ РїР°РјСЏС‚Рё. */
 static void free_block(block_t* head) {
 	block_t* next;
 	while (head != NULL) {
@@ -98,7 +98,7 @@ static void free_block(block_t* head) {
 	}
 }
 
-/** Создание файлового дескриптора. */
+/** РЎРѕР·РґР°РЅРёРµ С„Р°Р№Р»РѕРІРѕРіРѕ РґРµСЃРєСЂРёРїС‚РѕСЂР°. */
 static filedesc_t* create_fd(file_t* file) {
 	filedesc_t* fd = malloc(sizeof(filedesc_t));
 	if (!fd) {
@@ -136,7 +136,7 @@ static filedesc_t* create_fd(file_t* file) {
 	return fd;
 }
 
-/** Поиск файлового дескриптора. */
+/** РџРѕРёСЃРє С„Р°Р№Р»РѕРІРѕРіРѕ РґРµСЃРєСЂРёРїС‚РѕСЂР°. */
 static filedesc_t* fd_find(int fd) {
 	for (int i = 0; i < file_descriptor_count; i++) {
 		if (file_descriptors[i] && file_descriptors[i]->id == fd) {
@@ -146,7 +146,7 @@ static filedesc_t* fd_find(int fd) {
 	return NULL;
 }
 
-/** Создание файла. */
+/** РЎРѕР·РґР°РЅРёРµ С„Р°Р№Р»Р°. */
 static file_t* file_create(const char* path) {
 	file_t* file = malloc(sizeof(file_t));
 	if (!file) {
@@ -178,7 +178,7 @@ static file_t* file_create(const char* path) {
 	return file;
 }
 
-/** Проверка существования файла. */
+/** РџСЂРѕРІРµСЂРєР° СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёСЏ С„Р°Р№Р»Р°. */
 _Bool file_exists(file_t* file) {
 	file_t* cur = file_list;
 	while (cur) {
@@ -190,7 +190,7 @@ _Bool file_exists(file_t* file) {
 	return FALSE;
 }
 
-/** Поиск файла. */
+/** РџРѕРёСЃРє С„Р°Р№Р»Р°. */
 static file_t* file_find(const char* name) {
 	file_t* node = file_list;
 	while (node) {
@@ -202,7 +202,7 @@ static file_t* file_find(const char* name) {
 	return node;
 }
 
-/** Освобождение памяти. */
+/** РћСЃРІРѕР±РѕР¶РґРµРЅРёРµ РїР°РјСЏС‚Рё. */
 static void file_free(file_t* file) {
 	block_t* block = file->block_list;
 	free_block(block);
@@ -210,7 +210,7 @@ static void file_free(file_t* file) {
 	free(file);
 }
 
-/** Открытие файла. */
+/** РћС‚РєСЂС‹С‚РёРµ С„Р°Р№Р»Р°. */
 int ufs_open(const char *filename, int flags)
 {
 	file_t* file = file_find(filename);
@@ -237,7 +237,7 @@ int ufs_open(const char *filename, int flags)
 	return fd->id;
 }
 
-/** Чтение данных. */
+/** Р§С‚РµРЅРёРµ РґР°РЅРЅС‹С…. */
 static ssize_t read_recursively(block_t* block, int offset, char* buf, size_t size) {
 	if (!block) {
 		return 0;
@@ -255,7 +255,7 @@ static ssize_t read_recursively(block_t* block, int offset, char* buf, size_t si
 	return block_size;
 }
 
-/** Запись данных. */
+/** Р—Р°РїРёСЃСЊ РґР°РЅРЅС‹С…. */
 static ssize_t write_recursively(block_t* block, file_t* file, int offset, const char* buf, size_t size) {
 	if (size <= 0) {
 		return 0;
@@ -290,7 +290,7 @@ static ssize_t write_recursively(block_t* block, file_t* file, int offset, const
 	return size;
 }
 
-/** Реализация режимов открытия файла. */
+/** Р РµР°Р»РёР·Р°С†РёСЏ СЂРµР¶РёРјРѕРІ РѕС‚РєСЂС‹С‚РёСЏ С„Р°Р№Р»Р°. */
 ssize_t ufs_read(int fd, char *buf, size_t size)
 {
 	filedesc_t* filedesc = fd_find(fd); 
@@ -319,7 +319,7 @@ ssize_t ufs_read(int fd, char *buf, size_t size)
 	return bytes_read;
 }
 
-/** Реализация режимов записи в файл. */
+/** Р РµР°Р»РёР·Р°С†РёСЏ СЂРµР¶РёРјРѕРІ Р·Р°РїРёСЃРё РІ С„Р°Р№Р». */
 ssize_t ufs_write(int fd, const char *buf, size_t size)
 {
 	filedesc_t* filedesc = fd_find(fd); 
@@ -356,7 +356,7 @@ ssize_t ufs_write(int fd, const char *buf, size_t size)
 	return bytes_write;
 }
 
-/** Сдвиг файловых дескрипторов. */
+/** РЎРґРІРёРі С„Р°Р№Р»РѕРІС‹С… РґРµСЃРєСЂРёРїС‚РѕСЂРѕРІ. */
 static void fd_offset(file_t* file) {
 	int size = file->size;
 	filedesc_t* fd = NULL;
@@ -368,7 +368,7 @@ static void fd_offset(file_t* file) {
 	}
 }
 
-/** Закрытие файла. */
+/** Р—Р°РєСЂС‹С‚РёРµ С„Р°Р№Р»Р°. */
 int ufs_close(int fd)
 {
 	for (int i = 0; i < file_descriptor_count; i++) {
@@ -386,7 +386,7 @@ int ufs_close(int fd)
 	return -1;
 }
 
-/** Удаление файла. */
+/** РЈРґР°Р»РµРЅРёРµ С„Р°Р№Р»Р°. */
 int ufs_delete(const char *filename)
 {
 	file_t* file = file_find(filename);
@@ -407,7 +407,7 @@ int ufs_delete(const char *filename)
 	}
 }
 
-/** Изменение размера файла (resize). */
+/** РР·РјРµРЅРµРЅРёРµ СЂР°Р·РјРµСЂР° С„Р°Р№Р»Р° (resize). */
 int ufs_resize(int fd, size_t size) {
 	if (size < 0) {
 		return -1;

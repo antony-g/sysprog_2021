@@ -160,8 +160,6 @@ int thread_task_join(thread_task_t *task, void **result) {
 	return 0;
 }
 
-/* реализовать таймаут для thread_task_join() */
-
 int thread_task_join_timeout(thread_task_t *task, void **result, double timeout) {
 	static int tmp;
 	struct timespec timer;
@@ -245,8 +243,6 @@ int thread_task_delete(thread_task_t *task) {
 	task_free(task);
 	return 0;
 }
-
-/* Реализовать функцию detach */
 
 #ifdef NEED_DETACH
 
