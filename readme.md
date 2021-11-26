@@ -44,10 +44,10 @@
 
 ## Домашние задания
 
-### 1. [Сортировка слиянием через корутины](https://github.com/antony-g/sysprog_2021/tree/master/01)
+### [1. Сортировка слиянием через корутины](https://github.com/antony-g/sysprog_2021/tree/master/01)
 
-### 2. [Интерфейс командной строки Shell](https://github.com/antony-g/sysprog_2021/tree/master/02)
+### [2. Интерфейс командной строки Shell](https://github.com/antony-g/sysprog_2021/tree/master/02)
 
-### 3. [Реализация файловой системы](https://github.com/antony-g/sysprog_2021/tree/master/03)
+### [3. Реализация файловой системы](https://github.com/antony-g/sysprog_2021/tree/master/03)
 
-### 4. [Пул потоков (Thread pool)](https://github.com/antony-g/sysprog_2021/tree/master/04)
+### [4. Пул потоков (Thread pool)](https://github.com/antony-g/sysprog_2021/tree/master/04)
